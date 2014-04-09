@@ -1,3 +1,3 @@
 module Mumble
-  VERSION = "1.0.2"
+  VERSION = "1000000.0.2"
 end
