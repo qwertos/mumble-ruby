@@ -34,7 +34,7 @@ module Mumble
 			@dec_sample_rate = sample_rate
 			@dec_frame_size = frame_size
 			@dec_channels = channels
-
+			@decoder = []
 			@queues = []
 			spawn_thread :play_audio
 		end
