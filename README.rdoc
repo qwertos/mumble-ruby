@@ -25,6 +25,10 @@ There is huge room for improvement in this library and I am willing to accept al
 * Added image text messages
 * Added ssl cert auth
 * Fixed several bugs
+* Added audio-receive
+* Added audio-normalize
+* Added recording ability (raw-opus-packets)
+* Added dejitter
 
 == BASIC USAGE:
 
@@ -94,6 +98,9 @@ There is huge room for improvement in this library and I am willing to accept al
     # Start streaming from a FIFO queue of raw PCM data
     cli.stream_raw_audio('/tmp/mpd.fifo')
     # => #<Mumble::AudioStream ...>
+    
+    # Start streaming into a FIFO queue of raw PCM data
+    cli.receive_raw_audio('/tmp/playout.fifo')
 
     # Safely disconnect
     cli.disconnect
