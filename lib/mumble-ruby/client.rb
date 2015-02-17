@@ -212,6 +212,12 @@ module Mumble
     end
 
 
+		public
+
+		# Generates a String that shows a visualiation of the channel
+		# structure. Output is similar to yaml.
+		#
+		# @return [String] The tree structure.
 		def channel_tree
 			parent_to_children = {}
 
