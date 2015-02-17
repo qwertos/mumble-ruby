@@ -210,5 +210,39 @@ module Mumble
     def encode_version(major, minor, patch)
       (major << 16) | (minor << 8) | (patch & 0xFF)
     end
+
+
+		def channel_tree
+			parent_to_children = {}
+
+			@channels.each do |id, chan|
+				unless id == 0 then
+					unless parent_to_children.has_key? chan.parent_id then
+						parent_to_children[chan.parent_id] = []
+					end
+					parent_to_children[chan.parent_id].push id
+				end
+			end
+			
+			return channel_tree_genstr parent_to_children
+		end
+
+
+		private
+		def channel_tree_genstr( info, id=0, layer=0 )
+			to_return = ""
+
+			to_return += ( '  ' * layer ) + '- ' + @channels[id].name + "\n"
+
+			# Is current ID a parent
+			if info.has_key? id then
+				info[id].each do |child|
+					to_return += channel_tree_genstr( info, child, layer + 1 )
+				end
+			end
+
+			return to_return
+		end
+
   end
 end
