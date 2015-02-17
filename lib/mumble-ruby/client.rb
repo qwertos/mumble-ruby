@@ -212,54 +212,54 @@ module Mumble
     end
 
 
-		public
+    public
 
-		# Generates a String that shows a visualiation of the channel
-		# structure. Output is similar to yaml.
-		#
-		# @return [String] The tree structure.
-		def channel_tree
-			parent_to_children = {}
+    # Generates a String that shows a visualiation of the channel
+    # structure. Output is similar to yaml.
+    #
+    # @return [String] The tree structure.
+    def channel_tree
+      parent_to_children = {}
 
-			@channels.each do |id, chan|
-				unless id == 0 then
-					unless parent_to_children.has_key? chan.parent_id then
-						parent_to_children[chan.parent_id] = []
-					end
-					parent_to_children[chan.parent_id].push id
-				end
-			end
-			
-			return channel_tree_genstr parent_to_children
-		end
+      @channels.each do |id, chan|
+        unless id == 0 then
+          unless parent_to_children.has_key? chan.parent_id then
+            parent_to_children[chan.parent_id] = []
+          end
+          parent_to_children[chan.parent_id].push id
+        end
+      end
+      
+      return channel_tree_genstr parent_to_children
+    end
 
 
-		private
+    private
 
-		# Generates the channel tree string. Recursive to handle
-		# the indentation.
-		#
-		# @param info [Hash] Key is a parentid, Value is an array of
-		#   ids of that parent's children
-		# @param current_id [Integer] Id of the channel we are currently
-		#   working on. When calling from outside this method, this is
-		#   the root ID of the tree.
-		# @param generation [Integer] How many generations are there
-		#   between current and root.
-		def channel_tree_genstr( info, current_id=0, generation=0 )
-			to_return = ""
+    # Generates the channel tree string. Recursive to handle
+    # the indentation.
+    #
+    # @param info [Hash] Key is a parentid, Value is an array of
+    #   ids of that parent's children
+    # @param current_id [Integer] Id of the channel we are currently
+    #   working on. When calling from outside this method, this is
+    #   the root ID of the tree.
+    # @param generation [Integer] How many generations are there
+    #   between current and root.
+    def channel_tree_genstr( info, current_id=0, generation=0 )
+      to_return = ""
 
-			to_return += ( '  ' * generation ) + '- ' + @channels[current_id].name + "\n"
+      to_return += ( '  ' * generation ) + '- ' + @channels[current_id].name + "\n"
 
-			# Is current ID a parent
-			if info.has_key? current_id then
-				info[current_id].each do |child|
-					to_return += channel_tree_genstr( info, child, generation + 1 )
-				end
-			end
+      # Is current ID a parent
+      if info.has_key? current_id then
+        info[current_id].each do |child|
+          to_return += channel_tree_genstr( info, child, generation + 1 )
+        end
+      end
 
-			return to_return
-		end
+      return to_return
+    end
 
   end
 end
