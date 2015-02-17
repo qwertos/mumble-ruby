@@ -229,15 +229,26 @@ module Mumble
 
 
 		private
-		def channel_tree_genstr( info, id=0, layer=0 )
+
+		# Generates the channel tree string. Recursive to handle
+		# the indentation.
+		#
+		# @param info [Hash] Key is a parentid, Value is an array of
+		#   ids of that parent's children
+		# @param current_id [Integer] Id of the channel we are currently
+		#   working on. When calling from outside this method, this is
+		#   the root ID of the tree.
+		# @param generation [Integer] How many generations are there
+		#   between current and root.
+		def channel_tree_genstr( info, current_id=0, generation=0 )
 			to_return = ""
 
-			to_return += ( '  ' * layer ) + '- ' + @channels[id].name + "\n"
+			to_return += ( '  ' * generation ) + '- ' + @channels[current_id].name + "\n"
 
 			# Is current ID a parent
-			if info.has_key? id then
-				info[id].each do |child|
-					to_return += channel_tree_genstr( info, child, layer + 1 )
+			if info.has_key? current_id then
+				info[current_id].each do |child|
+					to_return += channel_tree_genstr( info, child, generation + 1 )
 				end
 			end
 
